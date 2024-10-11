@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "56289901918",
+    "project_id": "carebook-735c4",
+    "storage_bucket": "carebook-735c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56289901918:android:4af7c4ec2320a24ab8a3cf",
+        "android_client_info": {
+          "package_name": "com.works.carebook001"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5M4M6r8mWxdBQHGJZF0NRGxKNyK5n_Bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
