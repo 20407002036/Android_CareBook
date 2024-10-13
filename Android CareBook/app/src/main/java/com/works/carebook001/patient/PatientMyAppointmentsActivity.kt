@@ -30,28 +30,28 @@ class PatientMyAppointmentsActivity : AppCompatActivity() {
         patientAppointmentsList.setOnItemLongClickListener { adapterView, _, i, _ ->
             val selectedAppointment = adapterView.getItemAtPosition(i) as PatientAppointmentData
             AlertDialog.Builder(this).apply {
-                setTitle("Randevu İptal Et")
-                setMessage("Randevuyu iptal etmek istediğinize emin misiniz?")
-                setPositiveButton("Evet") { _, _ ->
-                    // Randevuyu hem hasta koleksiyonundan hem de doktor koleksiyonundan sil
+                setTitle("Cancel Appointment")
+                setMessage("Are you sure you want to cancel the appointment?")
+                setPositiveButton("Yes") { _, _ ->
+                    // Delete the appointment from both the patient collection and the doctor collection
                     patientAppointmentService.deleteAppointment(
                         patientEmail,
                         selectedAppointment.doctorEmail!!,
                         selectedAppointment.id!!
                     ) { success ->
                         if (success) {
-                            Toast.makeText(this@PatientMyAppointmentsActivity, "Randevu iptal edildi", Toast.LENGTH_SHORT).show()
-                            // Listeyi yeniden yükle
+                            Toast.makeText(this@PatientMyAppointmentsActivity, "Appointment canceled", Toast.LENGTH_SHORT).show()
+                            //Reload list
                             patientAppointmentService.getAppointmentsForPatient(patientEmail) { updatedAppointments ->
                                 val newAdapter = PatientAppointmentAdapter(this@PatientMyAppointmentsActivity, updatedAppointments)
                                 patientAppointmentsList.adapter = newAdapter
                             }
                         } else {
-                            Toast.makeText(this@PatientMyAppointmentsActivity, "Randevu iptal edilemedi", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@PatientMyAppointmentsActivity, "Appointment could not be canceled", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
-                setNegativeButton("Hayır", null)
+                setNegativeButton("No", null)
             }.create().show()
             true
         }

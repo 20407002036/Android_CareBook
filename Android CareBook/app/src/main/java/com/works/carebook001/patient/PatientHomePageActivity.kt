@@ -23,7 +23,7 @@ class PatientHomePageActivity : AppCompatActivity() {
     lateinit var doctorService: DoctorService
 
     lateinit var userImage: String
-    lateinit var userName : String // Buradakiler AppointmentActivity'e göndermek için
+    lateinit var userName : String // These are to send to AppointmentActivity
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
@@ -40,7 +40,7 @@ class PatientHomePageActivity : AppCompatActivity() {
             listView.adapter = adapter
             //Log.d("doctors", it.toString())
         }
-        // Kullanıcının profil resmini Firestore'dan al
+        // Get user's profile picture from Firestore
         val userEmail = auth.currentUser?.email
         if (userEmail != null) {
             db.collection("patients").document(userEmail).get()
@@ -95,16 +95,16 @@ class PatientHomePageActivity : AppCompatActivity() {
             }
             R.id.logout -> {
                 AlertDialog.Builder(this).apply {
-                    setTitle("Hesaptan çıkış yap")
-                    setMessage("Çıkış yapmak istediğinize emin misiniz?")
-                    setPositiveButton("Evet") { _, _ ->
+                    setTitle("Log out")
+                    setMessage("Are you sure you want to log out?")
+                    setPositiveButton("Yes") { _, _ ->
                         FirebaseAuth.getInstance().signOut()
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                         finish()
                     }
-                    setNegativeButton("Hayır", null)
+                    setNegativeButton("No", null)
 
                 }.create().show()
 
@@ -119,7 +119,7 @@ class PatientHomePageActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Doktor listesini yeniden yükle
+        // Reload doctor list
         doctorService.getDoctors {
             val adapter = DoctorCustomAdapter(this, it)
             listView.adapter = adapter

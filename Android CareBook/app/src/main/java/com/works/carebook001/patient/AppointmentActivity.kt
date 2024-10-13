@@ -59,10 +59,10 @@ class AppointmentActivity : AppCompatActivity() {
 
 
 
-        txtAppName.text = "İsim : " + doctorName
-        txtAppSurname.text = "Soyisim : " + doctorSurname
-        txtAppAge.text = "Yaşı : " + doctorAge
-        txtAppField.text = "Alanı : " + doctorField
+        txtAppName.text = "Name : " + doctorName
+        txtAppSurname.text = "Surname : " + doctorSurname
+        txtAppAge.text = "Age : " + doctorAge
+        txtAppField.text = "Area : " + doctorField
         Glide.with(this).load(doctorImage).into(ImgApp)
 
         val currentDate = Calendar.getInstance()
@@ -73,7 +73,7 @@ class AppointmentActivity : AppCompatActivity() {
         val datePickerDialog = DatePickerDialog(
             this,
             DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-                // Seçilen tarihi kullan
+                // Use selected date
 
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(selectedYear, selectedMonth, selectedDayOfMonth)
@@ -81,10 +81,10 @@ class AppointmentActivity : AppCompatActivity() {
 
 
                 if (dayOfWeek == Calendar.SUNDAY) {
-                    Toast.makeText(this, "Pazar günleri mesai yoktur,seçilemez", Toast.LENGTH_LONG)
+                    Toast.makeText(this, "No work on Sundays, cannot be selected", Toast.LENGTH_LONG)
                         .show()
                 } else {
-                    // İşlemleriniz
+                    // Your transactions
                     var ay = "${selectedMonth + 1}"
                     if (selectedMonth + 1 < 10) {
                         ay = "0${selectedMonth + 1}"
@@ -99,12 +99,12 @@ class AppointmentActivity : AppCompatActivity() {
             dayOfMonth
         )
 
-        // Minimum tarih olarak bugünden önceki günleri belirle
+        // Set days before today as minimum date
         val minDate = Calendar.getInstance()
         minDate.add(Calendar.DAY_OF_MONTH, 0)
         datePickerDialog.datePicker.minDate = minDate.timeInMillis
 
-        // Maksimum tarih olarak bugünden 20 gün sonrasını belirle
+        // Set 20 days from today as the maximum date
         val maxDate = Calendar.getInstance()
         maxDate.add(Calendar.DAY_OF_MONTH, 20)
         datePickerDialog.datePicker.maxDate = maxDate.timeInMillis
@@ -123,18 +123,18 @@ class AppointmentActivity : AppCompatActivity() {
 
             override fun onTimeSet(p0: TimePicker?, hour: Int, minute: Int) {
                 val roundedMinute = (Math.round(minute.toFloat() / 15) * 15) % 60
-                // Bu girilen değeri 15 in katlarında hangisine yakınsa ona yuvarlar
-                // ÖNEMLİ : Örneğin 5.45 - 6.00 arasında, 6.00 a yakın olan saat 5.00 olarak yuvarlanır dikkat et.
+                //This rounds the entered value to the nearest multiple of 15.
+                // IMPORTANT: For example, between 5.45 and 6.00, be careful that the time closest to 6.00 is rounded to 5.00.
                 if (hour < 9 || hour >= 17) {
                     Toast.makeText(
                         this@AppointmentActivity,
-                        "Lütfen mesai saatlerinde (9.00 - 17.00) bir saat seçiniz",
+                        "Please choose a time during business hours (9.00 - 17.00)",
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
                     selectedHour = String.format("%d:%d", hour, roundedMinute)
                     txtAppHour.setText(
-                        "Tarih: " + Date + "\nSaat: " + String.format(
+                        "History: " + Date + "\nMoment: " + String.format(
                             "%d:%d",
                             hour,
                             roundedMinute
@@ -149,7 +149,7 @@ class AppointmentActivity : AppCompatActivity() {
 
         btnSelectHour.setOnClickListener {
             if (Date.isEmpty()) {
-                Toast.makeText(this, "Önce tarih seçiniz", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Please select date first", Toast.LENGTH_LONG).show()
             } else {
                 mTimePicker.show()
             }
@@ -181,14 +181,14 @@ class AppointmentActivity : AppCompatActivity() {
                     appointmentHour
                 )
                 addAppointmentToFirestore(patientEmail,doctorEmail!!,appointmentInfo)
-                Toast.makeText(this, "Randevunuz başarıyla oluşturuldu", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Your appointment has been created successfully", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, PatientHomePageActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
                 Toast.makeText(
                     this,
-                    "Lütfen gerekli bilgileri eksiksiz doldurunuz",
+                    "Please fill in the required information completely",
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -203,31 +203,31 @@ class AppointmentActivity : AppCompatActivity() {
     ) {
         val db = FirebaseFirestore.getInstance()
 
-        // appointments altında hasta emailine göre bir doküman oluştur
+        // Create a document based on the patient email under appointments
         val patientRef = db.collection("appointments").document(patientEmail)
 
-        // Bu dokümanın altında patientAppointments adında bir alt koleksiyon oluştur
-        // ve bu alt koleksiyona yeni randevu ekle
+        // Create a subcollection called patientAppointments under this document
+        // and add new appointment to this subcollection
         val newAppointmentRef = patientRef.collection("patientAppointments").document()
 
-        // Aynı document ID ile doktora randevu ekle
+        // Add an appointment to the doctor with the same document ID
         val doctorRef = db.collection("doctorAppointments").document(doctorEmail)
         val newDoctorAppointmentRef =
             doctorRef.collection("appointments").document(newAppointmentRef.id)
 
-        // Randevu verilerini set et
+        // Set appointment data
         newAppointmentRef.set(appointment)
             .addOnSuccessListener {
                 newDoctorAppointmentRef.set(appointment)
                     .addOnSuccessListener {
-                        Log.d("AppointmentActivity", "Randevu başarıyla eklendi.")
+                        Log.d("AppointmentActivity", "The appointment has been added successfully.")
                     }
                     .addOnFailureListener { e ->
-                        Log.w("AppointmentActivity", "Doktor randevusu eklenirken hata oluştu", e)
+                        Log.w("AppointmentActivity", "An error occurred while adding a doctor's appointment", e)
                     }
             }
             .addOnFailureListener { e ->
-                Log.w("AppointmentActivity", "Randevu eklenirken hata oluştu", e)
+                Log.w("AppointmentActivity", "An error occurred while adding an appointment", e)
             }
     }
 

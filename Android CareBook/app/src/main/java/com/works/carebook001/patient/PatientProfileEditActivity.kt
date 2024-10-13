@@ -48,14 +48,14 @@ class PatientProfileEditActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
 
-        // Firestore'dan verileri çekerek EditText'lere atayın
+        // Pull data from Firestore and assign it to EditTexts
         db.collection("patients")
             .document(user?.email!!)
             .get()
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     val patientData = document.toObject(PatientData::class.java)
-                    // Verileri EditText'lere atayın
+                    // Assign data to EditTexts
                     edtPName.setText(patientData?.first)
                     edtPSurname.setText(patientData?.last)
                     edtPAge.setText(patientData?.age)
@@ -74,16 +74,16 @@ class PatientProfileEditActivity : AppCompatActivity() {
             ) {
                 // AlertDialog ile kullanıcıyı onay alalım
                 AlertDialog.Builder(this).apply {
-                    setTitle("Onay")
-                    setMessage("Güncellemek istiyor musunuz?")
-                    setPositiveButton("Evet") { _, _ ->
+                    setTitle("Approval")
+                    setMessage("Do you want to update?")
+                    setPositiveButton("Yes") { _, _ ->
                         val oldPassword = edtOldPassword.text.toString()
                         val newPassword = edtNewPassword.text.toString()
                         val name = edtPName.text.toString()
                         val surname = edtPSurname.text.toString()
                         val age = edtPAge.text.toString()
 
-                        // Eski şifreyi kontrol edin ve güncelleme işlemi yapın
+                        // Check the old password and update it
                         verifyAndUpdate(
                             oldPassword,
                             newPassword,
@@ -92,8 +92,8 @@ class PatientProfileEditActivity : AppCompatActivity() {
                             age,
                             user?.email!!,
                             downloadUri.toString()
-                        ) // görseller sonradan ayarlanacak
-                        // Belirli bir gecikme süresiyle intent'i başlatın
+                        ) // images will be adjusted later
+                        // Start intent with a specific delay time
                         Handler().postDelayed({
                             val intent = Intent(
                                 this@PatientProfileEditActivity,
@@ -101,16 +101,16 @@ class PatientProfileEditActivity : AppCompatActivity() {
                             )
                             startActivity(intent)
                             finish()
-                        }, 2000) // 2 saniye gecikme süresi
+                        }, 2000) // 2 seconds delay time
                     }
-                    setNegativeButton("Hayır", null)
+                    setNegativeButton("No", null)
                 }.create().show()
             }else
             {
-                Toast.makeText(this,"Lütfen bilgileri eksiksiz doldurunuz",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"Please fill in the information completely",Toast.LENGTH_LONG).show()
             }
         }
-        // Görsele tıklandığında galeriye erişim isteyin
+        // Request access to the gallery when clicking on the image
         imgPatientProfile.setOnClickListener {
 
 
@@ -121,10 +121,10 @@ class PatientProfileEditActivity : AppCompatActivity() {
 
 
 
-    // Kullanıcıya galeriye erişim izni istemek için izin kodu
+    // Permission code to request user permission to access the gallery
     private val READ_EXTERNAL_STORAGE_PERMISSION = 123
     private val PICK_IMAGE_REQUEST = 123
-    // İstenilen izinlerin sonuçları için onRequestPermissionsResult metodunu kontrol edin
+    //Check the onRequestPermissionsResult method for the results of the requested permissions
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -133,33 +133,33 @@ class PatientProfileEditActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == READ_EXTERNAL_STORAGE_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // İzin verildi, galeriye erişim sağlanabilir
+                // Permission granted, gallery can be accessed
                 openGallery()
             } else {
-                // İzin reddedildi, galeriye erişim sağlanamaz
-                Toast.makeText(this, "Galeriye erişim izni reddedildi", Toast.LENGTH_SHORT).show()
+                // Permission denied, gallery cannot be accessed
+                Toast.makeText(this, "Gallery access denied", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // Galeriye erişim sağlandığında çağrılır
+    // Called when accessing the gallery
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
-    // Galeri seçim sonucu için onActivityResult metodunu kontrol edin
+    // Check onActivityResult method for gallery selection result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             val selectedImageUri = data.data
 
-            // Glide ile seçilen görseli ImageView'e yükleme
+            // Loading the selected image with Glide into ImageView
 
             Glide.with(this).load(selectedImageUri).into(imgPatientProfile)
 
-            // Seçilen görseli Firebase Storage'a kaydetme
+            // Save the selected image to Firebase Storage
             val user = FirebaseAuth.getInstance().currentUser
             val storageRef = FirebaseStorage.getInstance().reference
             val imageRef = storageRef.child("users/${user?.email}/profile.jpg")
@@ -169,16 +169,16 @@ class PatientProfileEditActivity : AppCompatActivity() {
                 if (!task.isSuccessful) {
                     throw task.exception!!
                 }
-                // Görselin indirilebilir URL'sini alma
+                // Get the image's downloadable URL
                 imageRef.downloadUrl
             }.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     downloadUri = task.result
-                    // Görselin indirilebilir URL'sini alınca yapılacak işlemler
-                    // Örneğin, Firestore'a kaydetme gibi
-                    // downloadUri.toString() kullanarak URL'yi alabilirsiniz
+                    // Actions to take when receiving the downloadable URL of the image
+                    // For example, saving to Firestore
+                    // You can get the URL using downloadUri.toString()
                 } else {
-                    // Görselin yüklenemediği durumlar için hata işlemleri
+                    // Error handling for situations where the image cannot be loaded
                 }
             }
         }
@@ -200,7 +200,7 @@ class PatientProfileEditActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 user.updatePassword(newPassword).addOnCompleteListener { updateTask ->
                     if (updateTask.isSuccessful) {
-                        // Şimdi Firestore'daki diğer bilgileri güncelle
+                        // Now update other information in Firestore
                         updateClientInFirestore(
                             user.uid,
                             first,
@@ -213,7 +213,7 @@ class PatientProfileEditActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this,
-                            "Şifre güncellenemedi: ${updateTask.exception?.message}",
+                            "Password could not be updated: ${updateTask.exception?.message}",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -221,7 +221,7 @@ class PatientProfileEditActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Eski şifre yanlış: ${task.exception?.message}",
+                    "Old password is wrong: ${task.exception?.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -254,12 +254,12 @@ class PatientProfileEditActivity : AppCompatActivity() {
             .document(email)
             .set(clientInfo)
             .addOnSuccessListener {
-                Toast.makeText(this, "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Information updated successfully", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(
                     this,
-                    "Bilgiler güncellenirken hata oluştu: ${e.message}",
+                    "An error occurred while updating information: ${e.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

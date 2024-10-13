@@ -63,18 +63,18 @@ class PatientProfileActivity : AppCompatActivity() {
         }
         btnDeleteAccount.setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("Hesabı Sil")
-                .setMessage("Hesabınızı silmek istediğinizden emin misiniz?")
-                .setPositiveButton("Evet") { _, _ ->
-                    // Kullanıcının hesabını sil
+                .setTitle("Delete Account")
+                .setMessage("Are you sure you want to delete your account?")
+                .setPositiveButton("Yes") { _, _ ->
+                    // Delete user's account
                     val user = FirebaseAuth.getInstance().currentUser
                     user?.delete()
                         ?.addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Log.d(
                                     "FirebaseAuth",
-                                    "Kullanıcı hesabı silindi."
-                                )// Firestore'dan da kullanıcıyı silin
+                                    "The user account has been deleted."
+                                )// Delete user from Firestore too
                                 val db = FirebaseFirestore.getInstance()
                                 db.collection("patients")
                                     .document(user.email!!)
@@ -82,31 +82,31 @@ class PatientProfileActivity : AppCompatActivity() {
                                     .addOnSuccessListener {
                                         Log.d(
                                             "Firestore",
-                                            "Döküman başarılı bir şekilde silindi!"
+                                            "The document has been deleted successfully!"
                                         )
                                     }
                                     .addOnFailureListener { e ->
                                         Log.w(
                                             "Firestore",
-                                            "Hata oluştu.",
+                                            "Error occurred.",
                                             e
                                         )
                                     }
-                                // Başarı durumunda kullanıcıyı bir sonraki aktiviteye yönlendir
+                                // Redirect user to next activity on success
                                 val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {
-                                // Kullanıcı silinirken hata oluştu
+                                // Error while deleting user
                                 Log.w(
                                     "Firestore",
-                                    "Kullanıcı silinirken hata oluştu.",
+                                    "An error occurred while deleting the user.",
                                     task.exception
                                 )
                             }
                         }
                 }
-                .setNegativeButton("Hayır", null)
+                .setNegativeButton("No", null)
                 .show()
         }
 
@@ -125,7 +125,7 @@ class PatientProfileActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Verileri güncelle
+        // Update data
         updateData()
     }
 
@@ -139,10 +139,10 @@ class PatientProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     val patientData = document.toObject(PatientData::class.java)
-                    // Verileri EditText'lere atayın
-                    txtPName.setText("İsim: ${patientData?.first}")
-                    txtPSurname.setText("Soyisim: ${patientData?.last}")
-                    txtPAge.setText("Yaş: ${patientData?.age}")
+                    // Assign data to EditTexts
+                    txtPName.setText("Name: ${patientData?.first}")
+                    txtPSurname.setText("Surname: ${patientData?.last}")
+                    txtPAge.setText("Age: ${patientData?.age}")
                     txtPEmail.setText("Email: ${patientData?.email}")
                 }
             }

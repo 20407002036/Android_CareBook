@@ -105,7 +105,7 @@ class PatientRegisterActivity : AppCompatActivity() {
                     }
 
             } else {
-                Toast.makeText(this, "Eksik bilgi girmeyiniz", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Do not enter incomplete information`", Toast.LENGTH_LONG).show()
             }
 
         }
