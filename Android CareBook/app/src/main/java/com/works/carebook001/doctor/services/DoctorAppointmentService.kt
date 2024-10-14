@@ -24,14 +24,14 @@ class DoctorAppointmentService {
     }
 
     fun deleteAppointment(doctorEmail: String, patientEmail: String, appointmentId: String, callback: (Boolean) -> Unit) {
-        // Doktor koleksiyonundan sil
+        // Delete from Doctor collection
         db.collection("doctorAppointments")
             .document(doctorEmail)
             .collection("appointments")
             .document(appointmentId)
             .delete()
             .addOnSuccessListener {
-                // Hasta koleksiyonundan da sil
+                // Also delete from patient collection
                 db.collection("appointments")
                     .document(patientEmail)
                     .collection("patientAppointments")

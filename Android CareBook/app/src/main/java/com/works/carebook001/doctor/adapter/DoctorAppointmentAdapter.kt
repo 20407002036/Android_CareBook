@@ -24,9 +24,9 @@ class DoctorAppointmentAdapter(private val context: Activity, private val list:L
 
         val appointment = list.get(position)
         r_appName.text = appointment.patientName
-        r_appDate.text = "Tarih : " + appointment.date
-        r_appHour.text = "Saat : " + appointment.hour
-        r_appNote.text = "Not : " + appointment.note
+        r_appDate.text = "Date : " + appointment.date
+        r_appHour.text = "Time : " + appointment.hour
+        r_appNote.text = "Note : " + appointment.note
 
         Glide.with(context).load(appointment.patientImg).into(r_appImg)
 

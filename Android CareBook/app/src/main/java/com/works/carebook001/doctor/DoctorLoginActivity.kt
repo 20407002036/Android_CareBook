@@ -33,13 +33,13 @@ class DoctorLoginActivity : AppCompatActivity() {
             if (editTxtDoctorLEmail.text.toString() == "" || editTxtDoctorLPassword.text.toString() == "") {
                 Toast.makeText(
                     this,
-                    "Lütfen bilgileri eksiksiz şekilde doldurunuz",
+                    "Please fill in the information completely",
                     Toast.LENGTH_LONG
                 ).show()
             } else if (!editTxtDoctorLEmail.text.toString().contains("@doctor")) {
                 Toast.makeText(
                     this,
-                    "Geçerli bir doktor e-posta adresi giriniz",
+                    "Enter a valid doctor email address",
                     Toast.LENGTH_LONG
                 ).show()
             }else {
@@ -50,7 +50,7 @@ class DoctorLoginActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Toast.makeText(
                                 this,
-                                "Kullanıcı başarıyla giriş yaptı",
+                                "User logged in successfully",
                                 Toast.LENGTH_LONG
                             ).show()
                             val intent = Intent(this, DoctorHomepageActivity::class.java)

@@ -14,20 +14,20 @@ class PatientAppointmentService {
             .addOnSuccessListener { documents ->
                 val appointmentsList = documents.mapNotNull { document ->
                     val appointment = document.toObject(PatientAppointmentData::class.java)
-                    appointment?.copy(id = document.id) // belge kimliğini ekle
+                    appointment?.copy(id = document.id) // add document id
                 }
                 callback(appointmentsList)
             }
     }
     fun deleteAppointment(patientEmail: String, doctorEmail: String, appointmentId: String, callback: (Boolean) -> Unit) {
-        // Hasta koleksiyonundan sil
+        // Delete from patient collection
         db.collection("appointments")
             .document(patientEmail)
             .collection("patientAppointments")
             .document(appointmentId)
             .delete()
             .addOnSuccessListener {
-                // Doktor koleksiyonundan da sil
+                // Also delete from doctor collection
                 db.collection("doctorAppointments")
                     .document(doctorEmail)
                     .collection("appointments")

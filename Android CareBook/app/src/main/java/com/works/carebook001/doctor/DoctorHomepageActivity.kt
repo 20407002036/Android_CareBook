@@ -26,9 +26,9 @@ class DoctorHomepageActivity : AppCompatActivity() {
 
         val doctorAppointmentService = DoctorAppointmentService()
         val doctorEmail =
-            FirebaseAuth.getInstance().currentUser?.email // Doktor e-posta adresini buraya girin
+            FirebaseAuth.getInstance().currentUser?.email // Enter doctor email address here
 
-        // Doktora ait randevuları çekiyoruz
+        // record doctor's appointments
         doctorAppointmentService.getAppointmentsForDoctor(doctorEmail!!) { appointments ->
             Log.d("appointments", appointments.toString())
             val adapter = DoctorAppointmentAdapter(this, appointments)
@@ -38,10 +38,10 @@ class DoctorHomepageActivity : AppCompatActivity() {
                 val selectedAppointment = appointments[position]
 
                 AlertDialog.Builder(this)
-                    .setTitle("Randevuyu İptal Et")
-                    .setMessage("Bu randevuyu iptal etmek istediğinize emin misiniz?")
-                    .setPositiveButton("Evet") { _, _ ->
-                        // Randevuyu hem doktor koleksiyonundan hem de hasta koleksiyonundan sil
+                    .setTitle("Cancel Appointment")
+                    .setMessage("Are you sure you want to cancel this appointment?")
+                    .setPositiveButton("Yes") { _, _ ->
+                        // Delete the appointment from both the doctor collection and the patient collection
                         doctorAppointmentService.deleteAppointment(
                             doctorEmail,
                             selectedAppointment.patientEmail!!,
@@ -50,10 +50,10 @@ class DoctorHomepageActivity : AppCompatActivity() {
                             if (success) {
                                 Toast.makeText(
                                     this,
-                                    "Randevu başarıyla silindi.",
+                                    "The appointment has been deleted successfully.",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                // Listenin güncellenmesi için randevuları tekrar çek
+                                // Redo appointments to update the list
                                 doctorAppointmentService.getAppointmentsForDoctor(doctorEmail) { updatedAppointments ->
                                     adapter.clear()
                                     adapter.addAll(updatedAppointments)
@@ -62,13 +62,13 @@ class DoctorHomepageActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(
                                     this,
-                                    "Randevu silinirken bir hata oluştu.",
+                                    "An error occurred while deleting the appointment.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
                     }
-                    .setNegativeButton("Hayır", null)
+                    .setNegativeButton("No", null)
                     .show()
 
                 true
@@ -94,16 +94,16 @@ class DoctorHomepageActivity : AppCompatActivity() {
             }
             R.id.doctor_logout -> {
                 AlertDialog.Builder(this).apply {
-                    setTitle("Hesaptan çıkış yap")
-                    setMessage("Çıkış yapmak istediğinize emin misiniz?")
-                    setPositiveButton("Evet") { _, _ ->
+                    setTitle("Log out of account")
+                    setMessage("Are you sure you want to log out?")
+                    setPositiveButton("Yes") { _, _ ->
                         FirebaseAuth.getInstance().signOut()
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                         finish()
                     }
-                    setNegativeButton("Hayır", null)
+                    setNegativeButton("No", null)
 
                 }.create().show()
             }

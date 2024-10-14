@@ -8,7 +8,7 @@ import org.jsoup.select.Elements
 class WebNewsService {
     fun newsList() : List<NewsData> {
         val arr = mutableListOf<NewsData>()
-        val url = "https://www.haberler.com/saglik/"
+        val url = "https://www.bbc.com/news/health" //Previous News https://www.haberler.com/saglik/
         val document: Document = Jsoup.connect(url).timeout(15000).get()
         val elements: Elements = document.getElementsByClass("boxStyle color-general hbBoxMainText")
 
@@ -28,7 +28,7 @@ class WebNewsService {
             }
             if (arr.size >= 14)
             {
-                break // İlk 15 haberi alıyorum diğer türlü çok uzun olucak
+                break // I'm getting the first 15 news, otherwise it will be too long.
             }
 
         }

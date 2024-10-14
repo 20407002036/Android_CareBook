@@ -23,7 +23,7 @@ class DoctorCustomAdapter (private val context: Activity, private val list:List<
 
         val user = list.get(position)
         r_name.text = "${user.first} ${user.last}"
-        r_age.text = "Yaşı : " + user.age.toString()
+        r_age.text = "Age : " + user.age.toString()
         r_field.text = user.field
         Glide.with(context).load(user.image).into(r_image)
 

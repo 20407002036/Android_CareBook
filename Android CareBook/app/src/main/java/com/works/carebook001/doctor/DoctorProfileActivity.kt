@@ -49,11 +49,11 @@ class DoctorProfileActivity : AppCompatActivity() {
                     if (document != null) {
                         val doctorData = document.toObject(DoctorData::class.java)
                         if (doctorData != null) {
-                            txtDName.text = "İsminiz: " + doctorData.first ?: "N/A"
-                            txtDSurname.text = "Soyisminiz: " + doctorData.last ?: "N/A"
-                            txtDAge.text = "Yaşınız: " + doctorData.age ?: "N/A"
-                            txtDEmail.text = "Emailiniz: " + doctorData.email ?: "N/A"
-                            txtDField.text = "Uzmanlık Alanınız: " + doctorData.field?: "N/A"
+                            txtDName.text = "Name: " + doctorData.first ?: "N/A"
+                            txtDSurname.text = "Surname: " + doctorData.last ?: "N/A"
+                            txtDAge.text = "Age: " + doctorData.age ?: "N/A"
+                            txtDEmail.text = "Email: " + doctorData.email ?: "N/A"
+                            txtDField.text = "Area of Expertise: " + doctorData.field?: "N/A"
                             Glide.with(this).load(doctorData.image).into(imgDoctorProfile)
                         }
                     } else {
@@ -66,18 +66,18 @@ class DoctorProfileActivity : AppCompatActivity() {
 
         btnDeleteDAccount.setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("Hesabı Sil")
-                .setMessage("Hesabınızı silmek istediğinizden emin misiniz?")
-                .setPositiveButton("Evet") { _, _ ->
-                    // Kullanıcının hesabını sil
+                .setTitle("Delete Account")
+                .setMessage("Are you sure you want to delete your account?")
+                .setPositiveButton("Yes") { _, _ ->
+                    // Delete user's account
                     val user = FirebaseAuth.getInstance().currentUser
                     user?.delete()
                         ?.addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Log.d(
                                     "FirebaseAuth",
-                                    "Kullanıcı hesabı silindi."
-                                )// Firestore'dan da kullanıcıyı silin
+                                    "The user account has been deleted."
+                                )// Delete user from Firestore
                                 val db = FirebaseFirestore.getInstance()
                                 db.collection("doctors")
                                     .document(user.email!!)
@@ -85,31 +85,31 @@ class DoctorProfileActivity : AppCompatActivity() {
                                     .addOnSuccessListener {
                                         Log.d(
                                             "Firestore",
-                                            "Döküman başarılı bir şekilde silindi!"
+                                            "The document has been deleted successfully!"
                                         )
                                     }
                                     .addOnFailureListener { e ->
                                         Log.w(
                                             "Firestore",
-                                            "Hata oluştu.",
+                                            "Error occurred.",
                                             e
                                         )
                                     }
-                                // Başarı durumunda kullanıcıyı bir sonraki aktiviteye yönlendir
+                                // Redirect user to next activity on success
                                 val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {
-                                // Kullanıcı silinirken hata oluştu
+                                // Error while deleting user
                                 Log.w(
                                     "Firestore",
-                                    "Kullanıcı silinirken hata oluştu.",
+                                    "An error occurred while deleting the user.",
                                     task.exception
                                 )
                             }
                         }
                 }
-                .setNegativeButton("Hayır", null)
+                .setNegativeButton("No", null)
                 .show()
         }
 
@@ -122,7 +122,7 @@ class DoctorProfileActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Verileri güncelle
+        // Update data
         updateData()
     }
 
@@ -136,12 +136,12 @@ class DoctorProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     val doctorData = document.toObject(DoctorData::class.java)
-                    // Verileri TextView'lere ata
-                    txtDName.text = "İsim: ${doctorData?.first}"
-                    txtDSurname.text = "Soyisim: ${doctorData?.last}"
-                    txtDAge.text = "Yaş: ${doctorData?.age}"
+                    // Assign data to TextViews
+                    txtDName.text = "Name: ${doctorData?.first}"
+                    txtDSurname.text = "Surname: ${doctorData?.last}"
+                    txtDAge.text = "Age: ${doctorData?.age}"
                     txtDEmail.text = "Email: ${doctorData?.email}"
-                    txtDField.text = "Uzmanlık Alanı: ${doctorData?.field}"
+                    txtDField.text = "Area of Expertise: ${doctorData?.field}"
                 }
             }
             .addOnFailureListener { e ->
