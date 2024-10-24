@@ -17,54 +17,54 @@
     <string name="patient">Patient</string>
 
     <string-array name="doctor_specialties">
-        <item>Ağız ve Diş Sağlığı</item>
-        <item>Anesteziyoloji ve Reanimasyon</item>
-        <item>Beslenme ve Diyetetik</item>
-        <item>Beyin ve Sinir Cerrahisi</item>
-        <item>Çocuk Cerrahisi</item>
-        <item>Çocuk Endokrinolojisi</item>
-        <item>Çocuk Enfeksiyon Hastalıkları</item>
-        <item>Çocuk Gastroenterolojisi</item>
-        <item>Çocuk Hematolojisi</item>
-        <item>Çocuk Kardiyolojisi</item>
-        <item>Çocuk Nefrolojisi</item>
-        <item>Çocuk Psikiyatrisi</item>
-        <item>Çocuk Sağlığı ve Hastalıkları</item>
-        <item>Çocuk Ürolojisi</item>
-        <item>Dermatoloji</item>
-        <item>Endokrinoloji ve Metabolizma Hastalıkları</item>
-        <item>Fiziksel Tıp ve Rehabilitasyon</item>
-        <item>Gastroenteroloji</item>
-        <item>Genel Cerrahi</item>
-        <item>Genetik</item>
-        <item>Göğüs Cerrahisi</item>
-        <item>Göğüs Hastalıkları</item>
-        <item>Göz Hastalıkları</item>
-        <item>Hematoloji</item>
-        <item>İç Hastalıkları (Dahiliye)</item>
-        <item>İmmünoloji</item>
-        <item>Jinekolojik Onkoloji</item>
-        <item>Kadın Hastalıkları ve Doğum</item>
-        <item>Kalp ve Damar Cerrahisi</item>
-        <item>Kardiyoloji</item>
-        <item>Kulak Burun Boğaz Hastalıkları</item>
-        <item>Mikrobiyoloji</item>
-        <item>Nefroloji</item>
-        <item>Neonatoloji</item>
-        <item>Nöroloji</item>
-        <item>Nöroşirurji</item>
-        <item>Ortopedi ve Travmatoloji</item>
-        <item>Plastik, Rekonstrüktif ve Estetik Cerrahi</item>
-        <item>Psikiyatri</item>
-        <item>Radyasyon Onkolojisi</item>
-        <item>Radyoloji</item>
-        <item>Tıbbi Biyokimya</item>
-        <item>Tıbbi Genetik</item>
-        <item>Tıbbi Mikrobiyoloji</item>
-        <item>Tıbbi Onkoloji</item>
-        <item>Tıbbi Patoloji</item>
-        <item>Tıbbi Farmakoloji</item>
-        <item>Üroloji</item>
+        <item>Oral and Dental Health</item>
+        <item>Anesthesiology and Reanimation</item>
+        <item>Nutrition and Dietetics</item>
+        <item>Brain and Neurosurgery</item>
+        <item>Pediatric Surgery</item>
+        <item>Pediatric Endocrinology</item>
+        <item>Pediatric Infectious Diseases</item>
+        <item>Pediatric Gastroenterology</item>
+        <item>Pediatric Hematology</item>
+        <item>Pediatric Cardiology</item>
+        <item>Pediatric Nephrology</item>
+        <item>Child Psychiatry</item>
+        <item>Pediatrics (Child Health and Diseases)</item>
+        <item>Pediatric Urology</item>
+        <item>Dermatology</item>
+        <item>Endocrinology and Metabolic Diseases</item>
+        <item>Physical Medicine and Rehabilitation</item>
+        <item>Gastroenterology</item>
+        <item>General Surgery</item>
+        <item>Genetics</item>
+        <item>Thoracic Surgery</item>
+        <item>Pulmonary Diseases</item>
+        <item>Ophthalmology</item>
+        <item>Hematology</item>
+        <item>Internal Medicine (General Medicine)</item>
+        <item>Immunology</item>
+        <item>Gynecologic Oncology</item>
+        <item>Obstetrics and Gynecology</item>
+        <item>Cardiovascular Surgery</item>
+        <item>Cardiology</item>
+        <item>Ear, Nose, and Throat Diseases</item>
+        <item>Microbiology</item>
+        <item>Nephrology</item>
+        <item>Neonatology</item>
+        <item>Neurology</item>
+        <item>Neurosurgery</item>
+        <item>Orthopedics and Traumatology</item>
+        <item>Plastic, Reconstructive, and Aesthetic Surgery</item>
+        <item>Psychiatry</item>
+        <item>Radiation Oncology</item>
+        <item>Radiology</item>
+        <item>Medical Biochemistry</item>
+        <item>Medical Genetics</item>
+        <item>Medical Microbiology</item>
+        <item>Medical Oncology</item>
+        <item>Medical Pathology</item>
+        <item>Medical Pharmacology</item>
+        <item>Urology</item>
     </string-array>
 
 </resources>

@@ -31,7 +31,7 @@
             android:layout_marginLeft="13dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/baloo"
-            android:text="Hasta ismi"
+            android:text="Patient Name"
             android:textColor="@color/koyu_yesil"
             android:textSize="18sp" />
 
@@ -42,7 +42,7 @@
             android:layout_marginLeft="13dp"
             android:layout_marginTop="3dp"
             android:fontFamily="@font/baloo"
-            android:text="Saat"
+            android:text="Time"
             android:textColor="@color/black" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_marginLeft="13dp"
             android:layout_marginTop="3dp"
             android:fontFamily="@font/baloo"
-            android:text="Tarih"
+            android:text="Date"
             android:textColor="@color/black" />
 
         <TextView
@@ -62,7 +62,7 @@
             android:layout_marginLeft="13dp"
             android:layout_marginTop="3dp"
             android:fontFamily="@font/baloo"
-            android:text="Not"
+            android:text="Note"
             android:textColor="@color/black" />
     </LinearLayout>
 </LinearLayout>

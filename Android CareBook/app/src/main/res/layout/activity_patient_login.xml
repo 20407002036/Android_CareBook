@@ -89,4 +89,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="CareBook" />
 
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="99dp"
+        android:layout_height="52dp"
+        android:text="Patient Login"
+        tools:layout_editor_absoluteX="167dp"
+        tools:layout_editor_absoluteY="158dp"
+        tools:text="Patient Login" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

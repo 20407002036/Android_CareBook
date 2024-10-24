@@ -104,7 +104,7 @@
         android:ems="10"
         android:fontFamily="@font/baloo"
         android:hint="@string/password"
-        android:inputType="number"
+        android:inputType="text|textPassword"
         android:padding="5dp"
         android:textColor="#000000"
         android:textSize="20sp"

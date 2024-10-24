@@ -32,7 +32,7 @@
             android:layout_marginLeft="13dp"
             android:layout_marginTop="3dp"
             android:fontFamily="@font/baloo"
-            android:text="Doktor ismi"
+            android:text="Doctor Name"
             android:textColor="@color/koyu_yesil"
             android:textSize="18sp" />
 
@@ -43,7 +43,7 @@
             android:layout_marginLeft="13dp"
             android:layout_marginTop="1dp"
             android:fontFamily="@font/baloo"
-            android:text="Saat"
+            android:text="Hour"
             android:textColor="@color/black" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="13dp"
             android:fontFamily="@font/baloo"
-            android:text="Tarih"
+            android:text="Date"
             android:textColor="@color/black" />
 
         <TextView
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="13dp"
             android:fontFamily="@font/baloo"
-            android:text="Uzmanlık"
+            android:text="Expertise"
             android:textColor="#000000"
             android:textSize="14sp" />
 
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="13dp"
             android:fontFamily="@font/baloo"
-            android:text="Not"
+            android:text="Note"
             android:textColor="@color/black" />
     </LinearLayout>
 </LinearLayout>
